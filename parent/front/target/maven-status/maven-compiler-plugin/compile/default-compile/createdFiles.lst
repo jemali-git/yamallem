@@ -1,0 +1,15 @@
+com\atn\demo\config\SpringMvcInitializer.class
+com\atn\demo\mvc\module\user\dao\PersonDaoImpl.class
+com\atn\demo\config\security\SpringSecurityInitializer.class
+com\atn\demo\mvc\module\user\controller\UserController.class
+com\atn\demo\mvc\module\user\entity\Role$ROLE.class
+com\atn\demo\mvc\module\user\entity\User.class
+com\atn\demo\mvc\module\user\service\UserService.class
+com\atn\demo\mvc\module\user\dao\PersonDao.class
+com\atn\demo\mvc\module\user\dao\UserDao.class
+com\atn\demo\config\AppConfig.class
+com\atn\demo\mvc\module\user\dao\UserDaoJpa.class
+com\atn\demo\mvc\module\user\entity\Role.class
+com\atn\demo\config\MvcResourcesConfig.class
+com\atn\demo\config\security\SecurityConfig.class
+com\atn\demo\mvc\module\user\service\UserServiceImpl.class

@@ -1,0 +1,65 @@
+<project name="BACKUP  and RESTAURE NT COMPTABILITE" default="info" basedir=".">
+	<tstamp>
+		<format property="TODAY" pattern="u" locale="FR" />
+	</tstamp>
+	<!-- 
+il faut installer wdel wput
+et il faut installer con  : sudo apt-get install gnome-schedule 
+ajouter une tache : $ crontab -e
+0 1 * * * ant -f  /var/lib/tomcat7/webapps/ROOT/WEB-INF/build.xml doit
+-->
+	<property name="projet" value="CODERACER" />
+	<property name="backup.dir" value="/tmp/backup/${projet}/${TODAY}" />
+	<property name="remote.file" value="${projet}_${TODAY}.zip" />
+	<property name="backup.ftp.login" value="ns325207.ip-94-23-222.eu" />
+	<property name="backup.ftp.password" value="zeD9umT5rS" />
+	<property name="backup.ftp.host" value="ftpback-rbx4-108.ovh.net" />
+
+	<target name="clean">
+		<delete dir="${backup.dir}" />
+
+		<mkdir dir="${backup.dir}/db" />
+		<mkdir dir="${backup.dir}/data" />
+
+	</target>
+
+	<target name="info">
+		<echo message="script de backup and restaure ${projet}  ${TODAY}" />
+	</target>
+	<target name="backup-db">
+		<exec executable="mysqldump" output="${backup.dir}/db/database-dump.sql">
+			<arg value="--user=root" />
+			<arg value="--password=a3ZmQw83" />
+			<arg value="--host=localhost" />
+			<arg value="--port=3306" />
+			<arg value="coderacer" />
+		</exec>
+	</target>
+	<target name="backup-data">
+		<zip destfile="${backup.dir}/data/home.srvadmin.coderacer.zip" basedir="/home/srvadmin/coderacer/" />		
+	</target>
+	<target name="backup-all" depends="clean,backup-db,backup-data">
+		<zip destfile="${backup.dir}/../${TODAY}.zip" basedir="${backup.dir}" />
+
+	</target>
+	<target name="doit" depends="backup-all">
+		<exec executable="wdel">
+			<arg value="ftp://${backup.ftp.login}:${backup.ftp.password}@${backup.ftp.host}/${remote.file}" />
+		</exec>
+
+		<exec executable="wput">
+			<arg value="/tmp/backup/${projet}/${TODAY}.zip" />
+			<arg value="ftp://${backup.ftp.login}:${backup.ftp.password}@${backup.ftp.host}/${remote.file}" />
+		</exec>
+
+        <mail user="walid.mansia@nt-audit.com" password="4eFDbGdN5Hv6QTZZ3YtCrA"  mailhost="smtp.mandrillapp.com"
+          mailport="587" subject="Nightly Backup ${projet}">
+
+        <to address="walid.mansia@portago.eu" />
+        <from address="walid.mansia@nt-audit.com" />
+        <message >BACUP ${projet} is DONE</message>
+
+        </mail>
+
+	</target>
+</project>
