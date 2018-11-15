@@ -11,7 +11,7 @@
 
 	<packaging>pom</packaging>
 
-	<name>yamallam</name>
+	<name>mind-game</name>
 
 	<modules>
 		<module>front</module>
